@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import FileUpload from '@/components/FileUpload';
-import ConversionProgress from '@/components/ConversionProgress';
-import DownloadButton from '@/components/DownloadButton';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import FileUpload from "@/components/FileUpload";
+import ConversionProgress from "@/components/ConversionProgress";
+import DownloadButton from "@/components/DownloadButton";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function Home() {
@@ -31,7 +31,9 @@ export default function Home() {
       >
         <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
           <CardContent className="p-6 space-y-6">
-            <h1 className="text-3xl font-bold text-center text-gray-800">Video to GIF Converter</h1>
+            <h1 className="text-3xl font-bold text-center text-gray-800">
+              vid2gif
+            </h1>
             <FileUpload
               onConversionStart={handleConversionStart}
               onConversionComplete={handleConversionComplete}
@@ -41,7 +43,7 @@ export default function Home() {
                 <motion.div
                   key="progress"
                   initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
+                  animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.3 }}
                 >
@@ -55,7 +57,10 @@ export default function Home() {
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <DownloadButton url={downloadUrl} onDownloadComplete={handleDownloadComplete} />
+                  <DownloadButton
+                    url={downloadUrl}
+                    onDownloadComplete={handleDownloadComplete}
+                  />
                 </motion.div>
               ) : null}
             </AnimatePresence>
@@ -64,7 +69,7 @@ export default function Home() {
       </motion.div>
       <footer className="mt-8 text-center text-gray-600">
         <p>
-          Made with ❤️ by{' '}
+          Made with ❤️ by{" "}
           <a
             href="https://x.com/mattppal"
             target="_blank"
