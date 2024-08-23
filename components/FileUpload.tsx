@@ -32,11 +32,17 @@ export default function FileUpload({ onConversionStart, onConversionComplete }: 
         setSelectedFile(file);
         setIsSampleVideo(true);
 
-        // Set sample video dimensions (adjust these to match your sample video)
-        setOriginalWidth(1280);
-        setOriginalHeight(720);
-        setMaxResolution(720);
-        setResolution(480);
+        // Create a video element to get the correct dimensions of the sample video
+        const video = document.createElement('video');
+        video.preload = 'metadata';
+        video.onloadedmetadata = () => {
+            setOriginalWidth(video.videoWidth);
+            setOriginalHeight(video.videoHeight);
+            const maxDimension = Math.max(video.videoWidth, video.videoHeight);
+            setMaxResolution(Math.min(1080, maxDimension));
+            setResolution(resolutionOptions.find(r => r <= maxDimension) || resolutionOptions[0]);
+        };
+        video.src = URL.createObjectURL(file);
     };
 
     useEffect(() => {
@@ -44,11 +50,11 @@ export default function FileUpload({ onConversionStart, onConversionComplete }: 
             const video = document.createElement('video');
             video.preload = 'metadata';
             video.onloadedmetadata = () => {
+                setOriginalWidth(video.videoWidth);
+                setOriginalHeight(video.videoHeight);
                 const maxDimension = Math.max(video.videoWidth, video.videoHeight);
                 setMaxResolution(Math.min(1080, maxDimension));
                 setResolution(resolutionOptions.find(r => r <= maxDimension) || resolutionOptions[0]);
-                setOriginalWidth(video.videoWidth);
-                setOriginalHeight(video.videoHeight);
             };
             video.src = URL.createObjectURL(selectedFile);
         }
