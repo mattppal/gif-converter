@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Video to GIF Converter
 
-## Getting Started
+A web-based application that converts video files (MP4 and MOV) to GIF format using FFmpeg, built with Next.js, React, and TypeScript.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Upload video files (MP4 and MOV)
+- Adjust conversion parameters (FPS, resolution, color palette)
+- Convert videos to GIF
+- Download converted GIFs
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Prerequisites
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Node.js (v14 or later)
+- FFmpeg installed and accessible in the system PATH
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Installation
 
-## Learn More
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/video-to-gif-converter.git
+   cd video-to-gif-converter
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Install dependencies:
+   ```
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Run the development server:
+   ```
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+4. Open `http://localhost:3000` in your browser.
 
-## Deploy on Vercel
+## Usage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Click "Choose File" to select a video.
+2. Adjust conversion parameters as desired.
+3. Click "Convert" to process the video.
+4. Once conversion is complete, click "Download GIF" to save the result.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Architecture
+
+- Frontend: React components manage file upload, parameter adjustment, and download.
+- Backend: Next.js API routes handle file conversion using FFmpeg.
+
+## Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- FFmpeg for video processing capabilities
+- Next.js team for the fantastic React framework
+- All contributors and users of this project
+
+## Contact
+
+Matt - [@mattppal](https://x.com/mattppal)
+
+Project Link: [https://github.com/yourusername/video-to-gif-converter](https://github.com/yourusername/video-to-gif-converter)
