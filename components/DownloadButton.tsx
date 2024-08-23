@@ -18,7 +18,7 @@ export default function DownloadButton({ url, onDownloadComplete }: DownloadButt
         setIsDownloading(true);
         try {
             // Fetch the file
-            const response = await fetch(url);
+            const response = await fetch(`/api/serveGif/${encodeURIComponent(url.split('/').pop() || '')}`);
             const blob = await response.blob();
 
             // Create a temporary URL for the blob
@@ -43,7 +43,7 @@ export default function DownloadButton({ url, onDownloadComplete }: DownloadButt
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ url }),
+                body: JSON.stringify({ url: `/gifs/${url.split('/').pop()}` }),
             });
 
             onDownloadComplete();
