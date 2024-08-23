@@ -3,12 +3,14 @@ import { writeFile, mkdir, unlink } from 'fs/promises';
 import path from 'path';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import { rateLimitMiddleware } from '@/middleware/rateLimit';
 
 const execAsync = promisify(exec);
 
 const tempDir = path.join(process.cwd(), 'public', 'gifs');
 
 export async function POST(request: NextRequest) {
+    await rateLimitMiddleware(request, new NextResponse(), () => { });
     try {
         const formData = await request.formData();
         const file = formData.get('file') as File;
@@ -42,7 +44,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Updated FFmpeg command to maintain exact aspect ratio
-        const ffmpegCommand = `ffmpeg -i ${inputPath} -vf "fps=${fps},scale=${newWidth}:${newHeight}:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=${maxColors}[p];[s1][p]paletteuse" -loop 0 ${outputPath}`;
+        const ffmpegCommand = `ffmpeg -hwaccel auto -i ${inputPath} -vf "fps=${fps},scale=${newWidth}:${newHeight}:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=${maxColors}[p];[s1][p]paletteuse" -compression_level 3 -preset ultrafast -threads 4 -loop 0 ${outputPath}`;
 
         console.log('Executing FFmpeg command:', ffmpegCommand);
         const { stdout, stderr } = await execAsync(ffmpegCommand);

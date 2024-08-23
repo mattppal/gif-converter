@@ -1,10 +1,8 @@
-'use client';
-
 import { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { motion } from 'framer-motion';
-import { Upload, FileVideo } from 'lucide-react';
+import { Upload, FileVideo, Play } from 'lucide-react';
 
 interface FileUploadProps {
     onConversionStart: () => void;
@@ -13,6 +11,7 @@ interface FileUploadProps {
 
 const fpsOptions = [10, 12, 15, 20, 25, 30];
 const colorOptions = [16, 32, 64, 128];
+const resolutionOptions = [240, 360, 480, 720, 1080];
 
 export default function FileUpload({ onConversionStart, onConversionComplete }: FileUploadProps) {
     const [isConverting, setIsConverting] = useState(false);
@@ -20,29 +19,45 @@ export default function FileUpload({ onConversionStart, onConversionComplete }: 
     const [fps, setFps] = useState(15);
     const [resolution, setResolution] = useState(480);
     const [maxColors, setMaxColors] = useState(64);
-    const [maxResolution, setMaxResolution] = useState(720);
+    const [maxResolution, setMaxResolution] = useState(1080);
     const [originalWidth, setOriginalWidth] = useState(0);
     const [originalHeight, setOriginalHeight] = useState(0);
+    const [isSampleVideo, setIsSampleVideo] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+    const handleSampleVideo = async () => {
+        const response = await fetch('/sample.mp4');
+        const blob = await response.blob();
+        const file = new File([blob], 'sample.mp4', { type: 'video/mp4' });
+        setSelectedFile(file);
+        setIsSampleVideo(true);
+
+        // Set sample video dimensions (adjust these to match your sample video)
+        setOriginalWidth(1280);
+        setOriginalHeight(720);
+        setMaxResolution(720);
+        setResolution(480);
+    };
+
     useEffect(() => {
-        if (selectedFile) {
+        if (selectedFile && !isSampleVideo) {
             const video = document.createElement('video');
             video.preload = 'metadata';
             video.onloadedmetadata = () => {
                 const maxDimension = Math.max(video.videoWidth, video.videoHeight);
-                setMaxResolution(maxDimension);
-                setResolution(Math.min(480, maxDimension));
+                setMaxResolution(Math.min(1080, maxDimension));
+                setResolution(resolutionOptions.find(r => r <= maxDimension) || resolutionOptions[0]);
                 setOriginalWidth(video.videoWidth);
                 setOriginalHeight(video.videoHeight);
             };
             video.src = URL.createObjectURL(selectedFile);
         }
-    }, [selectedFile]);
+    }, [selectedFile, isSampleVideo]);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         setSelectedFile(file || null);
+        setIsSampleVideo(false);
     };
 
     const handleChooseFile = () => {
@@ -82,15 +97,26 @@ export default function FileUpload({ onConversionStart, onConversionComplete }: 
 
     return (
         <div className="space-y-4">
-            <Button
-                onClick={handleChooseFile}
-                variant="outline"
-                className="w-full"
-                disabled={isConverting}
-            >
-                <Upload className="mr-2 h-4 w-4" />
-                Choose File
-            </Button>
+            <div className="flex space-x-2">
+                <Button
+                    onClick={handleChooseFile}
+                    variant="outline"
+                    className="w-full"
+                    disabled={isConverting}
+                >
+                    <Upload className="mr-2 h-4 w-4" />
+                    Choose File
+                </Button>
+                <Button
+                    onClick={handleSampleVideo}
+                    variant="outline"
+                    className="w-full"
+                    disabled={isConverting}
+                >
+                    <Play className="mr-2 h-4 w-4" />
+                    Try a Sample
+                </Button>
+            </div>
             <input
                 ref={fileInputRef}
                 type="file"
@@ -104,6 +130,18 @@ export default function FileUpload({ onConversionStart, onConversionComplete }: 
                         <FileVideo className="h-4 w-4" />
                         <span className="truncate">{selectedFile.name}</span>
                     </div>
+                    {isSampleVideo && (
+                        <video
+                            src="/sample.mp4"
+                            loop
+                            autoPlay
+                            muted
+                            playsInline
+                            className="w-full rounded-lg shadow-md"
+                        >
+                            Your browser does not support the video tag.
+                        </video>
+                    )}
                     <div className="space-y-2">
                         <label className="text-sm font-medium">FPS: {fps}</label>
                         <Slider
@@ -117,11 +155,11 @@ export default function FileUpload({ onConversionStart, onConversionComplete }: 
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Resolution: {resolution}p</label>
                         <Slider
-                            min={240}
-                            max={maxResolution}
+                            min={0}
+                            max={resolutionOptions.findIndex(r => r === maxResolution)}
                             step={1}
-                            value={[resolution]}
-                            onValueChange={(value) => setResolution(value[0])}
+                            value={[resolutionOptions.indexOf(resolution)]}
+                            onValueChange={(value) => setResolution(resolutionOptions[value[0]])}
                         />
                     </div>
                     <div className="space-y-2">
