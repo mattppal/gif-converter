@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Video to GIF Converter",
-  description: "Convert MP4 and MOV files to GIF using FFmpeg and ImageMagick",
+  title: "vid2gif on Replit",
+  description: "Convert mp4 / mov files to gifs using ffmpeg.",
 };
 
 export default function RootLayout({
