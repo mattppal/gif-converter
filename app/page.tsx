@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import FileUpload from "@/components/FileUpload";
-import ConversionProgress from "@/components/ConversionProgress";
-import DownloadButton from "@/components/DownloadButton";
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import FileUpload from '@/components/FileUpload';
+import ConversionProgress from '@/components/ConversionProgress';
+import DownloadButton from '@/components/DownloadButton';
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function Home() {
@@ -32,7 +32,7 @@ export default function Home() {
         <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
           <CardContent className="p-6 space-y-6">
             <h1 className="text-3xl font-bold text-center text-gray-800">
-              vid2gif
+              📸 vid2gif
             </h1>
             <FileUpload
               onConversionStart={handleConversionStart}
