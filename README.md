@@ -2,6 +2,12 @@
 
 A web-based application that converts video files (MP4 and MOV) to GIF format using FFmpeg, built with Next.js, React, and TypeScript.
 
+Check out a live version: https://vid2gif.replit.app
+
+<div align="center">
+<img src="public/demo.gif" width="75%"/>
+</div>
+
 ## Prerequisites
 
 - Node.js (v14 or later)
