@@ -44,21 +44,7 @@ A web-based application that converts video files (MP4 and MOV) to GIF format us
 ## Architecture
 
 - Frontend: React components manage file upload, parameter adjustment, and download.
-- Backend: Next.js API routes handle file conversion using FFmpeg.
-
-## Contributing
-
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- FFmpeg for video processing capabilities
-- Next.js team for the fantastic React framework
-- All contributors and users of this project
+- Backend: Next.js API routes handle file conversion using ffmpeg.
 
 ## Contact
 
